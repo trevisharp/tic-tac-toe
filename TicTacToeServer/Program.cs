@@ -3,6 +3,9 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 using TicTacToeServer;
 using TicTacToeServer.Entities;
+using TicTacToeServer.Services.Token;
+using TicTacToeServer.Services.Player;
+using TicTacToeServer.Services.Matches;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,6 +26,21 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
 builder.Services.AddAuthorization();
 
+builder.Services.AddCors(options => {
+    options.AddPolicy("MainPolicy", builder => {
+        builder
+            .AllowAnyHeader()
+            .AllowAnyMethod()
+            .AllowAnyOrigin();
+    });
+});
+
+builder.Services
+    .AddSingleton(builder.Configuration)
+    .AddTransient<ITokenService, JWTTokenService>()
+    .AddScoped<IPlayerService, EFPlayerService>()
+    .AddScoped<IMatchesService, EFMatchesService>();
+
 builder.Services.AddOpenApi();
 builder.Services.AddControllers();
 
@@ -38,6 +56,8 @@ if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
 }
+
+app.UseCors("MainPolicy");
 
 app.UseHttpsRedirection();
 

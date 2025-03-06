@@ -18,10 +18,10 @@ public interface IMatchesService
     /// <summary>
     /// Create a new match.
     /// </summary>
-    Task<Match?> FindPair(Guid playerId);
+    Task<Match> FindPair(Guid playerId);
 
     /// <summary>
     /// Make a play on a specific match using play index on the board.
     /// </summary>
-    Task<PlayResult?> Play(Guid matchId, int playCode);
+    Task<PlayResult?> Play(Guid id, Guid matchId, int playCode);
 }

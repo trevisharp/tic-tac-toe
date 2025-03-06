@@ -33,7 +33,7 @@ public class EFMatchesService(TicTacToeDbContext ctx) : IMatchesService
     public async Task<Match?> FindOne(Guid matchId)
         => await ctx.FindAsync<Match>(matchId);
 
-    public async Task<Match?> FindPair(Guid playerId)
+    public async Task<Match> FindPair(Guid playerId)
     {
         var query = 
             from match in ctx.Matches
@@ -64,11 +64,16 @@ public class EFMatchesService(TicTacToeDbContext ctx) : IMatchesService
         return match;
     }
 
-    public async Task<PlayResult?> Play(Guid matchId, int playCode)
+    public async Task<PlayResult?> Play(Guid player, Guid matchId, int playCode)
     {
         var match = await FindOne(matchId);
         if (match is null)
             return new PlayResult(false, "The match do not exists.");
+
+        if (
+            player == match.Player1Id && match.ActivePlayer != 1 ||
+            player == match.Player2Id && match.ActivePlayer != 2
+        ) return new PlayResult(false, "It is not you time to play");
         
         int positionMask = 0b11;
         int play = match.ActivePlayer;
