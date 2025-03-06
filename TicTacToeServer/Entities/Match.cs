@@ -4,7 +4,9 @@ public class Match
 {
     public Guid Id { get; set; }
     public MatchStatus Status { get; set; }
+    public Guid? Player1Id { get; set; }
     public ApplicationUser? Player1 { get; set; }
+    public Guid? Player2Id { get; set; }
     public ApplicationUser? Player2 { get; set; }
     public int Winner { get; set; }
     public int BoardData { get; set; }

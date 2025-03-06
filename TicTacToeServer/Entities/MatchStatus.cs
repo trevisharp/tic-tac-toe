@@ -6,4 +6,5 @@ public enum MatchStatus
     Pairing = 1,
     InGame = 2,
     Finished = 4,
+    All = 7
 }

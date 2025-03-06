@@ -1,6 +1,7 @@
-using TicTacToeServer.Entities;
-
 namespace TicTacToeServer.Services.Matches;
+
+using Models;
+using Entities;
 
 public interface IMatchesService
 {
@@ -18,4 +19,9 @@ public interface IMatchesService
     /// Create a new match.
     /// </summary>
     Task<Match?> FindPair(Guid playerId);
+
+    /// <summary>
+    /// Make a play on a specific match using play index on the board.
+    /// </summary>
+    Task<PlayResult?> Play(Guid matchId, int playCode);
 }
