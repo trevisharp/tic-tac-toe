@@ -27,11 +27,16 @@ public class EFMatchesService(TicTacToeDbContext ctx) : IMatchesService
         return await query
             .Skip((page - 1) * limit)
             .Take(limit)
+            .Include(m => m.Player1)
+            .Include(m => m.Player2)
             .ToListAsync();
     }
 
     public async Task<Match?> FindOne(Guid matchId)
-        => await ctx.FindAsync<Match>(matchId);
+        => await ctx.Matches
+            .Include(m => m.Player1)
+            .Include(m => m.Player2)
+            .FirstOrDefaultAsync(m => m.Id == matchId);
 
     public async Task<Match> FindPair(Guid playerId)
     {

@@ -6,6 +6,7 @@ namespace TicTacToeServer.Controllers;
 
 using Models;
 using Services.Matches;
+using TicTacToeServer.Entities;
 
 [ApiController]
 public class MatchesController(IMatchesService service) : ControllerBase
@@ -38,13 +39,49 @@ public class MatchesController(IMatchesService service) : ControllerBase
     )
     {
         var claim = User.FindFirst(ClaimTypes.NameIdentifier);
+        var nameClaim = User.FindFirst(ClaimTypes.Name);
         if (claim is null)
             return Forbid();
         
         if (!Guid.TryParse(claim.Value, out var id))
             return Forbid();
         
-        return Ok(await service.Find(id, status, page, limit));
+        var matches = await service.Find(id, status, page, limit);
+        return Ok(
+            matches.Select(m => {
+                var player1 = m.Player1?.Username ?? "unknow";
+                var player2 = m.Player2?.Username ?? "unknow";
+                var winner = m.Winner switch {
+                    1 => player1,
+                    2 => player2,
+                    _ => null
+                };
+                var active = m.ActivePlayer switch {
+                    1 => player1,
+                    2 => player2,
+                    _ => null
+                };
+                var status = m.Status switch {
+                    MatchStatus.Finished => "finished",
+                    MatchStatus.Pairing => "pairing",
+                    MatchStatus.InGame => "in game",
+                    _ => "unknow"
+                };
+
+                var game = new List<int>();
+                int boardData = m.BoardData;
+                while (game.Count < 9) {
+                    game.Insert(0, boardData % 4);
+                    boardData <<= 2;
+                }
+
+                return new MatchData(
+                    m.Id, player1, player2,
+                    active, status, winner, [ ..game ], m.PlayTime,
+                    nameClaim?.Value == active
+                );
+            })
+        );
     }
 
     [HttpGet("match/{id}")]
@@ -53,8 +90,40 @@ public class MatchesController(IMatchesService service) : ControllerBase
         var match = await service.FindOne(id);
         if (match is null)
             return NotFound();
+
+        var player1 = match.Player1?.Username ?? "unknow";
+        var player2 = match.Player2?.Username ?? "unknow";
+        var winner = match.Winner switch {
+            1 => player1,
+            2 => player2,
+            _ => null
+        };
+        var active = match.ActivePlayer switch {
+            1 => player1,
+            2 => player2,
+            _ => null
+        };
+        var status = match.Status switch {
+            MatchStatus.Finished => "finished",
+            MatchStatus.Pairing => "pairing",
+            MatchStatus.InGame => "in game",
+            _ => "unknow"
+        };
+
+        var game = new List<int>();
+        int boardData = match.BoardData;
+        while (game.Count < 9) {
+            game.Insert(0, boardData % 4);
+            boardData <<= 2;
+        }
+
+        var data = new MatchData(
+            match.Id, player1, player2,
+            active, status, winner, [ ..game ], match.PlayTime,
+            false
+        );
         
-        return Ok(match);
+        return Ok(data);
     }
 
     [HttpPost("play")]

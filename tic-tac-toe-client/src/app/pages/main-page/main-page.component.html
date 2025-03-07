@@ -2,4 +2,17 @@
     <button mat-button (click)="newGame()">Novo jogo</button>
     <button mat-button (click)="userpage()">Minhas Estatísticas</button>
     <button mat-button (click)="exit()">Sair</button>
+    <mat-form-field>
+      <mat-select [(value)]="selected" (selectionChange)="selectFilter()">
+          <mat-option [value]="'in game'">Partidas em Jogo</mat-option>
+          <mat-option [value]="'finished'">Finalizadas</mat-option>
+      </mat-select>
+    </mat-form-field>
+</div>
+
+<div class="matches-container">
+  @for (match of matches; track $index)
+  {
+    <app-board [match]="match"></app-board>
+  }
 </div>

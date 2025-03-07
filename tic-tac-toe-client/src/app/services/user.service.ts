@@ -1,9 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-
-interface Token {
-  token: string
-}
+import Token from '../models/Token';
+import Stats from '../models/Stats';
 
 @Injectable({
   providedIn: 'root'
@@ -18,9 +16,9 @@ export class UserService {
   }
 
   getStats() {
-    return this.client.get(this.backend + "player", { 
+    return this.client.get<Stats>(this.backend + "player", { 
       headers: {
-        "Authorization": "Bearer" + (sessionStorage.getItem("token") ?? "no-token")
+        "Authorization": "Bearer " + (sessionStorage.getItem("token") ?? "no-token")
       }
      })
   }

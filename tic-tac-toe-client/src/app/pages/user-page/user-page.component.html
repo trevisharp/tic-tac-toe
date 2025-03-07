@@ -1,1 +1,8 @@
-<p>user-page works!</p>
+<h1>Estatísticas</h1>
+
+<h2>Nome: {{ stats.username }}</h2>
+<h2>Partidas Finalizadas: {{ stats.finishedMatches }}</h2>
+<h2>Vitórias: {{ stats.wins }}</h2>
+<h2>Taxa de Vitória: {{ winrate }} %</h2>
+
+<button mat-button (click)="exit()">Voltar</button>

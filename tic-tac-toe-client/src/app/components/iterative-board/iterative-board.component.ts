@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import Match from '../../models/Match';
 
 @Component({
   selector: 'app-iterative-board',
@@ -8,4 +9,16 @@ import { Component } from '@angular/core';
 })
 export class IterativeBoardComponent {
 
+  @Input()
+  match: Match = {
+    id: '',
+    player1: '',
+    player2: '',
+    active: null,
+    status: '',
+    winnner: null,
+    game: [],
+    playerTime: null,
+    youPlay: false
+  }
 }

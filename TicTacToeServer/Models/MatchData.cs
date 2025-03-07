@@ -8,5 +8,6 @@ public record MatchData(
     string Status,
     string? Winnner,
     int[]? Game,
-    DateTime? PlayerTime
+    DateTime? PlayerTime,
+    bool YouPlay
 );
