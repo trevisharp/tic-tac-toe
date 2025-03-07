@@ -71,7 +71,7 @@ public class MatchesController(IMatchesService service) : ControllerBase
                 var game = new List<int>();
                 int boardData = m.BoardData;
                 while (game.Count < 9) {
-                    game.Insert(0, boardData % 4);
+                    game.Add(boardData % 4);
                     boardData <<= 2;
                 }
 
@@ -113,7 +113,7 @@ public class MatchesController(IMatchesService service) : ControllerBase
         var game = new List<int>();
         int boardData = match.BoardData;
         while (game.Count < 9) {
-            game.Insert(0, boardData % 4);
+            game.Add(boardData % 4);
             boardData <<= 2;
         }
 

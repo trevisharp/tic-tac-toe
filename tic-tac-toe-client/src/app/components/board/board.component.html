@@ -6,15 +6,12 @@
         <rect x="15" y="50" width="150" height="10" fill="black" />
         <rect x="15" y="110" width="150" height="10" fill="black" />
     
-    <!-- @if (match.game[0] == 0) {
-        <rect x="15" y="15" width="40" height="40" fill="black" />
-        } -->
     </svg>
 
     <h3>
         {{match.player1}} vs {{match.player2}}
     </h3>
     
-    <button mat-button (click)="see()">{{match.youPlay ? "Ver" : "Jogar"}}</button>
+    <button mat-button (click)="see()">{{match.youPlay ? "Jogar" : "Ver"}}</button>
 
 </div>

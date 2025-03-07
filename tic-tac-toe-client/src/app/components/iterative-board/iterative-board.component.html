@@ -7,5 +7,78 @@
     <rect x="410" y="15" width="10" height="600" fill="black" />
     <rect x="15" y="200" width="600" height="10" fill="black" />
     <rect x="15" y="410" width="600" height="10" fill="black" />
+
+    @if (match.game[0] == 1) {
+        <rect x="15" y="15" width="180" height="180" fill="red" />
+    }
+    @if (match.game[0] == 2) {
+        <rect x="15" y="15" width="180" height="180" fill="blue" />
+    }
+    
+    @if (match.game[1] == 1) {
+        <rect x="225" y="15" width="180" height="180" fill="red" />
+    }
+    @if (match.game[1] == 2) {
+        <rect x="225" y="15" width="180" height="180" fill="blue" />
+    }
+    
+    @if (match.game[2] == 1) {
+        <rect x="435" y="15" width="180" height="180" fill="red" />
+    }
+    @if (match.game[2] == 2) {
+        <rect x="435" y="15" width="180" height="180" fill="blue" />
+    }
+    
+    @if (match.game[3] == 1) {
+        <rect x="15" y="225" width="180" height="180" fill="red" />
+    }
+    @if (match.game[3] == 2) {
+        <rect x="15" y="225" width="180" height="180" fill="blue" />
+    }
+    
+    @if (match.game[4] == 1) {
+        <rect x="225" y="225" width="180" height="180" fill="red" />
+    }
+    @if (match.game[4] == 2) {
+        <rect x="225" y="225" width="180" height="180" fill="blue" />
+    }
+    
+    @if (match.game[5] == 1) {
+        <rect x="435" y="225" width="180" height="180" fill="red" />
+    }
+    @if (match.game[5] == 2) {
+        <rect x="435" y="225" width="180" height="180" fill="blue" />
+    }
+    
+    @if (match.game[6] == 1) {
+        <rect x="15" y="435" width="180" height="180" fill="red" />
+    }
+    @if (match.game[6] == 2) {
+        <rect x="15" y="435" width="180" height="180" fill="blue" />
+    }
+    
+    @if (match.game[7] == 1) {
+        <rect x="225" y="435" width="180" height="180" fill="red" />
+    }
+    @if (match.game[7] == 2) {
+        <rect x="225" y="435" width="180" height="180" fill="blue" />
+    }
+    
+    @if (match.game[8] == 1) {
+        <rect x="435" y="435" width="180" height="180" fill="red" />
+    }
+    @if (match.game[8] == 2) {
+        <rect x="435" y="435" width="180" height="180" fill="blue" />
+    }
 </svg>
 
+<mat-form-field>
+    <mat-select [(value)]="selected">
+        @for (field of fields; track field)
+        {
+            <mat-option [value]="field">Casa {{field}}</mat-option>
+        }
+    </mat-select>
+</mat-form-field>
+<button mat-button (click)="play()">Jogar</button>
+<button mat-button (click)="exit()">Voltar</button>

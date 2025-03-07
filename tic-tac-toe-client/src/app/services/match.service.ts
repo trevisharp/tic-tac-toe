@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import Message from '../models/Message';
 import Match from '../models/Match';
+import PlayResut from '../models/PlayResult';
 
 @Injectable({
   providedIn: 'root'
@@ -32,7 +33,7 @@ export class MatchService {
   }
 
   play(gameId: string, play: number) {
-    return this.client.post(this.backend + "new", { gameId, play }, {
+    return this.client.post<PlayResut>(this.backend + "play", { gameId, play }, {
       headers: {
         "Authorization": "Bearer " + (sessionStorage.getItem("token") ?? "no-token")
       }
